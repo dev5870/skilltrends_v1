@@ -1,41 +1,37 @@
 <?php
-/**
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
 
 namespace app\commands;
 
 use yii\console\Controller;
 use yii\console\ExitCode;
+use app\models\Input;
 
 /**
- * This command echoes the first argument that you have entered.
- *
- * This command is provided as an example for you to learn how to create console commands.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @since 2.0
+ * Команды для парсинга данных с сайтов.
+ * Команды запускаются через cron один раз в сутки.
  */
 class ParseController extends Controller
 {
     /**
-     * This command echoes what you have entered as the message.
-     * @param string $message the message to be echoed.
      * @return int Exit code
      */
     public function actionIndex()
     {
-        $file = file_get_contents('https://hh.ru/search/vacancy?clusters=true&area=1&specialization=1&enable_snippets=true&salary=&st=searchVacancy&text=Codeception&from=suggest_post');
+        $model = Input::find()->select(['query'])->distinct()->all();
         $date = date('Y-m-d');
+        echo 'Количество записей для выборки: ' . count($model) . "\n";
+        for ($i = 0; $i < count($model); $i++) {
+            echo $model[$i]['query'] . "\n";
+            $link = 'https://hh.ru/search/vacancy?clusters=true&area=1&specialization=1&enable_snippets=true&salary=&st=searchVacancy&text=' . $model[$i]['query'] . '&from=suggest_post';
 
-        preg_match_all('/<h1 data-qa="bloko-header-1" class="bloko-header-1">(.*) <!-- -->вакансий/', $file, $result);
-        preg_match_all('/<!-- -->вакансий<!-- --> «(.*)»<\/h1>/', $file, $skill);
+            $file = file_get_contents($link);
 
-        echo 'Количество упоминаний: ' . $result[1][0] . "\n";
-        echo 'Запрос: ' . $skill[1][0] . "\n";
-        echo 'Дата парсинга: ' . $date . "\n";
+            preg_match_all('/"totalResults": (.*), "enableNovaFilters"/', $file, $result);
+
+            echo 'Количество упоминаний: ' . $result[1][0] . "\n";
+            echo 'Дата парсинга: ' . $date . "\n";
+            sleep(3);
+        }
 
         return ExitCode::OK;
     }
