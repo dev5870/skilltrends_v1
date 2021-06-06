@@ -2,9 +2,11 @@
 
 namespace app\commands;
 
+use yii\base\BaseObject;
 use yii\console\Controller;
 use yii\console\ExitCode;
 use app\models\Input;
+use app\models\Results;
 
 /**
  * Команды для парсинга данных с сайтов.
@@ -17,12 +19,12 @@ class ParseController extends Controller
      */
     public function actionIndex()
     {
-        $model = Input::find()->select(['query'])->distinct()->all();
+        $skill = Input::find()->select(['id', 'query'])->distinct()->all();
         $date = date('Y-m-d');
-        echo 'Количество записей для выборки: ' . count($model) . "\n";
-        for ($i = 0; $i < count($model); $i++) {
-            echo $model[$i]['query'] . "\n";
-            $link = 'https://hh.ru/search/vacancy?clusters=true&area=1&specialization=1&enable_snippets=true&salary=&st=searchVacancy&text=' . $model[$i]['query'] . '&from=suggest_post';
+        echo 'Количество записей для выборки: ' . count($skill) . "\n";
+        for ($i = 0; $i < count($skill); $i++) {
+            echo $skill[$i]['query'] . "\n";
+            $link = 'https://hh.ru/search/vacancy?clusters=true&area=1&specialization=1&enable_snippets=true&salary=&st=searchVacancy&text=' . $skill[$i]['query'] . '&from=suggest_post';
 
             $file = file_get_contents($link);
 
@@ -30,6 +32,13 @@ class ParseController extends Controller
 
             echo 'Количество упоминаний: ' . $result[1][0] . "\n";
             echo 'Дата парсинга: ' . $date . "\n";
+
+            $model = new Results();
+            $model->input_id = $skill[$i]['id'];
+            $model->date = $date;
+            $model->quantity = $result[1][0];
+            $model->save();
+
             sleep(3);
         }
 
