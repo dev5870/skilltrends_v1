@@ -1,5 +1,7 @@
 <?php
 
+use miloschuman\highcharts\Highcharts;
+
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -8,6 +10,26 @@ $this->title = 'My Yii Application';
 
     <div class="jumbotron">
         <h1>Congratulations!</h1>
+
+        <?php
+
+            echo Highcharts::widget([
+                'options' => [
+                    'title' => ['text' => 'Fruit Consumption'],
+                    'xAxis' => [
+                        'categories' => ['Apples', 'Bananas', 'Oranges']
+                    ],
+                    'yAxis' => [
+                        'title' => ['text' => 'Fruit eaten']
+                    ],
+                    'series' => [
+                        ['name' => 'Jane', 'data' => [1, 0, 4]],
+                        ['name' => 'John', 'data' => [5, 7, 3]]
+                    ]
+                ]
+            ]);
+
+        ?>
 
         <p class="lead">You have successfully created your Yii-powered application.</p>
 
