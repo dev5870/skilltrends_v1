@@ -2,7 +2,6 @@
 
 namespace app\commands;
 
-use yii\base\BaseObject;
 use yii\console\Controller;
 use yii\console\ExitCode;
 use app\models\Input;

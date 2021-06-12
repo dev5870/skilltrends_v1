@@ -10,4 +10,9 @@ class Input extends ActiveRecord
     {
         return '{{input}}';
     }
+
+    public static function getAllActiveSkills()
+    {
+        return Input::find()->asArray()->select(['query', 'id', 'region'])->where(['type' => 'skill', 'status' => 1])->distinct()->all();
+    }
 }
