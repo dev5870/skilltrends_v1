@@ -15,8 +15,9 @@ class ParseController extends Controller
 {
     /**
      * @return int Exit code
+     * Парсит скиллы
      */
-    public function actionIndex()
+    public function actionSkill()
     {
         $skill = Input::find()->select(['id', 'query'])->distinct()->all();
         $date = date('Y-m-d');
