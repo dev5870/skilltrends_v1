@@ -6,7 +6,7 @@ use miloschuman\highcharts\Highcharts;
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Skill trends - следим за трендами профессиональных навыков';
 ?>
 <div class="site-index">
 
