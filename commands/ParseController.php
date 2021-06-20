@@ -34,7 +34,8 @@ class ParseController extends Controller
             $model->date = $date;
             $model->quantity = $result[1][0];
             $model->save();
-            sleep(10);
+            $sec = rand(15, 25);
+            sleep($sec);
         }
 
         return ExitCode::OK;
@@ -61,7 +62,8 @@ class ParseController extends Controller
             $model->date = $date;
             $model->quantity = $result[1][0];
             $model->save();
-            sleep(10);
+            $sec = rand(15, 25);
+            sleep($sec);
         }
 
         return ExitCode::OK;
