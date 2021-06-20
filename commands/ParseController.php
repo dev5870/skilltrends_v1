@@ -34,7 +34,7 @@ class ParseController extends Controller
             $model->date = $date;
             $model->quantity = $result[1][0];
             $model->save();
-            sleep(3);
+            sleep(10);
         }
 
         return ExitCode::OK;
@@ -61,7 +61,7 @@ class ParseController extends Controller
             $model->date = $date;
             $model->quantity = $result[1][0];
             $model->save();
-            sleep(3);
+            sleep(10);
         }
 
         return ExitCode::OK;
