@@ -44,14 +44,20 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'cto' => 'site/cto',
+                'site-optimization-seo' => 'site/site-optimization-seo',
+                'programming-and-development' => 'site/programming-and-development',
+                'testing' => 'site/testing',
+                'technical-writer' => 'site/technical-writer',
+                'project-management' => 'site/project-management',
+                'analyst' => 'site/analyst',
+                'dying-professions' => 'site/dying-professions',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
