@@ -125,4 +125,44 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    public function actionCto()
+    {
+        return $this->render('cto');
+    }
+
+    public function actionSiteOptimizationSeo()
+    {
+        return $this->render('site-optimization-seo');
+    }
+
+    public function actionProgrammingAndDevelopment()
+    {
+        return $this->render('programming-and-development');
+    }
+
+    public function actionTesting()
+    {
+        return $this->render('testing');
+    }
+
+    public function actionTechnicalWriter()
+    {
+        return $this->render('technical-writer');
+    }
+
+    public function actionProjectManagement()
+    {
+        return $this->render('project-management');
+    }
+
+    public function actionAnalyst()
+    {
+        return $this->render('analyst');
+    }
+
+    public function actionDyingProfessions()
+    {
+        return $this->render('dying-professions');
+    }
 }
