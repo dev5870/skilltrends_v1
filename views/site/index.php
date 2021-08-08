@@ -90,7 +90,7 @@ $this->title = 'Skill trends - следим за трендами професс
         </p>
     </div>
 
-    <div class="body-content">
+    <div class="body-content" style="display: none">
 
         <div class="row">
             <div class="col-lg-4">

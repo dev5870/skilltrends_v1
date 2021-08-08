@@ -55,7 +55,7 @@ $this->title = 'Технический директор, CTO. Skill trends - с�
         <p><a class="btn btn-lg btn-success" href="/">На главную</a></p>
     </div>
 
-    <div class="body-content">
+    <div class="body-content" style="display: none">
 
         <div class="row">
             <div class="col-lg-4">
