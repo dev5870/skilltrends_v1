@@ -11,9 +11,12 @@ use app\models\Results;
  * Команды для парсинга данных с сайтов.
  * Команды запускаются через cron один раз в сутки.
  */
+
 class ParseController extends Controller
 {
     /**
+     * Парсит скиллы.
+     * В бд скиллы состоящие из нескольких слов необходимо указывать через '+', например: data+science.
      * @return int Exit code
      * Парсит скиллы
      */
@@ -33,8 +36,12 @@ class ParseController extends Controller
             $model->input_id = $skill[$i]['id'];
             $model->date = $date;
             $model->quantity = $result[1][0];
-            $model->save();
-            $sec = rand(15, 25);
+            if (!$model->save()) {
+                echo 'Данные не сохранены: ' . $skill[$i]['query'];
+                $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка парсинга: ' . $skill[$i]['query'], "r");
+                fclose($sendToTelegram);
+            }
+            $sec = rand(25, 45);
             sleep($sec);
         }
 
@@ -42,8 +49,8 @@ class ParseController extends Controller
     }
 
     /**
+     * Парсит количество вакансий.
      * @return int Exit code
-     * Парсит вакансии
      */
     public function actionVacancies()
     {
@@ -61,8 +68,12 @@ class ParseController extends Controller
             $model->input_id = $vacancies[$i]['id'];
             $model->date = $date;
             $model->quantity = $result[1][0];
-            $model->save();
-            $sec = rand(15, 25);
+            if (!$model->save()) {
+                echo 'Данные не сохранены: ' . $vacancies[$i]['query'];
+                $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка парсинга: ' . $skill[$i]['query'], "r");
+                fclose($sendToTelegram);
+            }
+            $sec = rand(25, 45);
             sleep($sec);
         }
 
