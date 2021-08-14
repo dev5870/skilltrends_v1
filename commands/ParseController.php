@@ -6,6 +6,7 @@ use yii\console\Controller;
 use yii\console\ExitCode;
 use app\models\Input;
 use app\models\Results;
+use yii\console;
 
 /**
  * Команды для парсинга данных с сайтов.
@@ -54,16 +55,18 @@ class ParseController extends Controller
      */
     public function actionVacancies()
     {
-        $vacancies = Input::find()->select(['id', 'query'])->where(['type' => 'vacancies', 'status' => 1])->distinct()->all();
+        $vacancies = Input::find()->select(['id', 'query', 'description'])->where(['type' => 'vacancies', 'status' => 1])->distinct()->all();
         $date = date('Y-m-d');
         echo 'Количество записей для выборки: ' . count($vacancies) . "\n";
         for ($i = 0; $i < count($vacancies); $i++) {
-            echo 'https://hh.ru/catalog/' . $vacancies[$i]['query'] . "\n";
+            $this->stdout("*************** *************** \n");
+            $this->stdout("Специализация: " . $vacancies[$i]['description'] . "\n");
             $link = $vacancies[$i]['query'];
             $file = file_get_contents($link);
             preg_match_all('/"totalResults": (.*), "enableNovaFilters"/', $file, $result);
-            echo 'Количество вакансий: ' . $result[1][0] . "\n";
-            echo 'Дата парсинга: ' . $date . "\n";
+            $this->stdout("Количество вакансий: " . $result[1][0] . "\n");
+            $this->stdout("Дата парсинга: " . $date . "\n");
+            $this->stdout("*************** *************** \n");
             $model = new Results();
             $model->input_id = $vacancies[$i]['id'];
             $model->date = $date;
