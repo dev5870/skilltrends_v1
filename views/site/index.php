@@ -75,18 +75,18 @@ $this->title = 'Skill trends - следим за трендами професс
             <a class="btn btn-xs btn-default" href="testing">Навык: Jira</a>
             <a class="btn btn-xs btn-default" href="testing">Навык: Rest</a>
             <a class="btn btn-xs btn-default" href="testing">Навык: Soap</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: PHP</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: Ruby</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: Java</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: Kotlin</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: Golang</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: Swift</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: Delphi</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: Python</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: JavaScript</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: Typescript</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: C++</a>
-            <a class="btn btn-xs btn-default" href="programming_and_development">Навык: C#</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: PHP</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Ruby</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Java</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Kotlin</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Golang</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Swift</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Delphi</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Python</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: JavaScript</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Typescript</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: C++</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: C#</a>
         </p>
     </div>
 
