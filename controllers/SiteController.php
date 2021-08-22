@@ -161,8 +161,98 @@ class SiteController extends Controller
         return $this->render('analyst');
     }
 
-    public function actionDyingProfessions()
+    public function actionDentist()
     {
-        return $this->render('dying-professions');
+        return $this->render('dentist');
+    }
+
+    public function actionPediatrician()
+    {
+        return $this->render('pediatrician');
+    }
+
+    public function actionCopywriter()
+    {
+        return $this->render('copywriter');
+    }
+
+    public function actionAccountant()
+    {
+        return $this->render('accountant');
+    }
+
+    public function actionLawyer()
+    {
+        return $this->render('lawyer');
+    }
+
+    public function actionCourier()
+    {
+        return $this->render('courier');
+    }
+
+    public function actionSecurity()
+    {
+        return $this->render('security');
+    }
+
+    public function actionTrainer()
+    {
+        return $this->render('trainer');
+    }
+
+    public function actionWaiter()
+    {
+        return $this->render('waiter');
+    }
+
+    public function actionPsychologist()
+    {
+        return $this->render('psychologist');
+    }
+
+    public function actionBiotechnologist()
+    {
+        return $this->render('biotechnologist');
+    }
+
+    public function actionRoboticist()
+    {
+        return $this->render('roboticist');
+    }
+
+    public function actionMarketer()
+    {
+        return $this->render('marketer');
+    }
+
+    public function actionDesigner()
+    {
+        return $this->render('designer');
+    }
+
+    public function actionGeneticist()
+    {
+        return $this->render('geneticist');
+    }
+
+    public function actionInformationSecurity()
+    {
+        return $this->render('information-security');
+    }
+
+    public function actionTeacher()
+    {
+        return $this->render('teacher');
+    }
+
+    public function actionDataEngineer()
+    {
+        return $this->render('data-engineer');
+    }
+
+    public function actionDataScientist()
+    {
+        return $this->render('data-scientist');
     }
 }

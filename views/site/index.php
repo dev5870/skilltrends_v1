@@ -53,40 +53,59 @@ $this->title = 'Skill trends - следим за трендами професс
         <p class="lead"></p>
 
         <p>
-            <a class="btn btn-xs btn-default" href="cto">Профессия: CTO (технический директор в IT)</a>
-            <a class="btn btn-sm btn-default" href="programming-and-development">Профессия: программист/разработчик</a>
-            <a class="btn btn-lg btn-default" href="testing">Профессия: тестировщик</a>
-            <a class="btn btn-lg btn-default" href="technical-writer">Профессия: технический писатель</a>
-            <a class="btn btn-lg btn-default" href="project-management">Профессия: менеджер проектов</a>
-            <a class="btn btn-lg btn-default" href="analyst">Профессия: бизнес-аналитик</a>
-            <a class="btn btn-lg btn-default" href="site-optimization-seo">Профессия: SEO оптимизатор</a>
+            <a class="btn btn-xs btn-default" href="cto">CTO (технический директор в IT)</a>
+            <a class="btn btn-sm btn-default" href="programming-and-development">Программист/разработчик</a>
+            <a class="btn btn-lg btn-default" href="testing">Тестировщик</a>
+            <a class="btn btn-lg btn-default" href="technical-writer">Технический писатель</a>
+            <a class="btn btn-lg btn-default" href="project-management">Менеджер проектов</a>
+            <a class="btn btn-lg btn-default" href="analyst">Бизнес-аналитик</a>
+            <a class="btn btn-lg btn-default" href="site-optimization-seo">SEO оптимизатор</a>
+            <a class="btn btn-lg btn-default" href="dentist">Стоматолог</a>
+            <a class="btn btn-lg btn-default" href="pediatrician">Педиатр</a>
+            <a class="btn btn-lg btn-default" href="copywriter">Копирайтер</a>
+            <a class="btn btn-lg btn-default" href="accountant">Бухгалтер</a>
+            <a class="btn btn-lg btn-default" href="lawyer">Юрист</a>
+            <a class="btn btn-lg btn-default" href="courier">Курьер</a>
+            <a class="btn btn-lg btn-default" href="security">Охранник</a>
+            <a class="btn btn-lg btn-default" href="trainer">Тренер</a>
+            <a class="btn btn-lg btn-default" href="waiter">Официант</a>
+            <a class="btn btn-lg btn-default" href="psychologist">Психолог</a>
+            <a class="btn btn-lg btn-default" href="biotechnologist">Биотехнолог</a>
+            <a class="btn btn-lg btn-default" href="roboticist">Робототехник</a>
+            <a class="btn btn-lg btn-default" href="marketer">Маркетолог</a>
+            <a class="btn btn-lg btn-default" href="designer">Дизайнер</a>
+            <a class="btn btn-lg btn-default" href="geneticist">Генетик</a>
+            <a class="btn btn-lg btn-default" href="information-security">Информационная безопасность</a>
+            <a class="btn btn-lg btn-default" href="teacher">Учитель</a>
+            <a class="btn btn-lg btn-default" href="data-engineer">Data engineer</a>
+            <a class="btn btn-lg btn-default" href="data-scientist">Data scientist</a>
             <a class="btn btn-lg btn-default" href="dying-professions">Профессии в зоне риска</a>
         </p>
 
         <h1>Список скиллов:</h1>
 
         <p>
-            <a class="btn btn-xs btn-default" href="testing">Навык: Codeception</a>
-            <a class="btn btn-xs btn-default" href="testing">Навык: Selenium</a>
-            <a class="btn btn-xs btn-default" href="testing">Навык: Postman</a>
-            <a class="btn btn-xs btn-default" href="testing">Навык: Soapui</a>
-            <a class="btn btn-xs btn-default" href="testing">Навык: Confluence</a>
-            <a class="btn btn-xs btn-default" href="testing">Навык: Redmine</a>
-            <a class="btn btn-xs btn-default" href="testing">Навык: Jira</a>
-            <a class="btn btn-xs btn-default" href="testing">Навык: Rest</a>
-            <a class="btn btn-xs btn-default" href="testing">Навык: Soap</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: PHP</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Ruby</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Java</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Kotlin</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Golang</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Swift</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Delphi</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Python</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: JavaScript</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: Typescript</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: C++</a>
-            <a class="btn btn-xs btn-default" href="programming-and-development">Навык: C#</a>
+            <a class="btn btn-xs btn-default" href="testing">Codeception</a>
+            <a class="btn btn-xs btn-default" href="testing">Selenium</a>
+            <a class="btn btn-xs btn-default" href="testing">Postman</a>
+            <a class="btn btn-xs btn-default" href="testing">Soapui</a>
+            <a class="btn btn-xs btn-default" href="testing">Confluence</a>
+            <a class="btn btn-xs btn-default" href="testing">Redmine</a>
+            <a class="btn btn-xs btn-default" href="testing">Jira</a>
+            <a class="btn btn-xs btn-default" href="testing">Rest</a>
+            <a class="btn btn-xs btn-default" href="testing">Soap</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">PHP</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Ruby</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Java</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Kotlin</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Golang</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Swift</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Delphi</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Python</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">JavaScript</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">Typescript</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">C++</a>
+            <a class="btn btn-xs btn-default" href="programming-and-development">C#</a>
         </p>
     </div>
 
