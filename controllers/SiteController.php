@@ -255,4 +255,9 @@ class SiteController extends Controller
     {
         return $this->render('data-scientist');
     }
+
+    public function actionDyingProfessions()
+    {
+        return $this->render('dying-professions');
+    }
 }
