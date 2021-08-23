@@ -15,7 +15,7 @@ $this->title = 'Информационная безопасность. Skill tre
 
         <?php
         $query = array();
-        $area = array('information-security');
+        $area = array('information_security');
         $input = Input::getDataByProfessionalArea($area);
         $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
 

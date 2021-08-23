@@ -15,7 +15,7 @@ $this->title = 'Data scientist. Skill trends - следим за трендам�
 
         <?php
         $query = array();
-        $area = array('data-scientist');
+        $area = array('data_scientist');
         $input = Input::getDataByProfessionalArea($area);
         $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
 
