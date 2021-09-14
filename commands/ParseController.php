@@ -6,13 +6,11 @@ use yii\console\Controller;
 use yii\console\ExitCode;
 use app\models\Input;
 use app\models\Results;
-use yii\console;
 
 /**
  * Команды для парсинга данных с сайтов.
  * Команды запускаются через cron один раз в сутки.
  */
-
 class ParseController extends Controller
 {
     /**
@@ -28,8 +26,15 @@ class ParseController extends Controller
         echo 'Количество записей для выборки: ' . count($skill) . "\n";
         for ($i = 0; $i < count($skill); $i++) {
             echo $skill[$i]['query'] . "\n";
-            $link = 'https://hh.ru/search/vacancy?clusters=true&area=1&specialization=1&enable_snippets=true&salary=&st=searchVacancy&text=' . $skill[$i]['query'] . '&from=suggest_post';
-            $file = file_get_contents($link);
+            try {
+                $link = 'https://hh.ru/search/vacancy?clusters=true&area=1&specialization=1&enable_snippets=true&salary=&st=searchVacancy&text=' . $skill[$i]['query'] . '&from=suggest_post';
+                $file = file_get_contents($link);
+            } catch (\Exception $e) {
+                echo 'Данные не получены (ошибка парсинга): ' . $skill[$i]['query'];
+                $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка парсинга: ' . $skill[$i]['query'], "r");
+                fclose($sendToTelegram);
+                continue;
+            }
             preg_match_all('/"totalResults": (.*), "enableNovaFilters"/', $file, $result);
             echo 'Количество упоминаний: ' . $result[1][0] . "\n";
             echo 'Дата парсинга: ' . $date . "\n";
@@ -62,7 +67,14 @@ class ParseController extends Controller
             $this->stdout("*************** *************** \n");
             $this->stdout("Специализация: " . $vacancies[$i]['description'] . "\n");
             $link = $vacancies[$i]['query'];
-            $file = file_get_contents($link);
+            try {
+                $file = file_get_contents($link);
+            } catch (\Exception $e) {
+                echo 'Данные не получены (ошибка парсинга): ' . $vacancies[$i]['query'];
+                $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка парсинга: ' . $skill[$i]['query'], "r");
+                fclose($sendToTelegram);
+                continue;
+            }
             preg_match_all('/"totalResults": (.*), "enableNovaFilters"/', $file, $result);
             $this->stdout("Количество вакансий: " . $result[1][0] . "\n");
             $this->stdout("Дата парсинга: " . $date . "\n");
