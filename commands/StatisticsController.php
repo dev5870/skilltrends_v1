@@ -26,7 +26,7 @@ class StatisticsController extends Controller
                 ->where(['date' => date('Y-m-d'), 'input_id' => $input[$i]['id']])
                 ->one();
 
-            if (empty($todayQuantity)) {
+            if (empty($todayQuantity) || $todayQuantity['quantity'] == '0') {
                 $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. пустое значение $todayQuantity, ' . $input[$i]['id'], "r");
                 fclose($sendToTelegram);
                 continue;
@@ -38,7 +38,7 @@ class StatisticsController extends Controller
                 ->where(['date' => $yesterdayDate, 'input_id' => $input[$i]['id']])
                 ->one();
 
-            if (empty($yesterdayQuantity)) {
+            if (empty($yesterdayQuantity) || $yesterdayQuantity['quantity'] == '0') {
                 $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. пустое значение $yesterdayQuantity, ' . $input[$i]['id'], "r");
                 fclose($sendToTelegram);
                 continue;
