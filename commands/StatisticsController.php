@@ -4,6 +4,7 @@ namespace app\commands;
 
 use yii\console\Controller;
 use app\models\Results;
+use app\models\Input;
 
 class StatisticsController extends Controller
 {
@@ -13,49 +14,54 @@ class StatisticsController extends Controller
     public function actionToday()
     {
         $yesterdayDate = date('Y-m-d', strtotime('-1 day', strtotime(date('Y-m-d'))));
-
-        $todayQuantity = Results::find()
+        $input = Input::find()
             ->asArray()
-            ->select(['id', 'quantity'])
-            ->where(['date' => date('Y-m-d')])
-            ->one();
+            ->select(['id'])
+            ->all();
 
-        if (empty($todayQuantity)) {
-            $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. пустое значение $todayQuantity', "r");
-            fclose($sendToTelegram);
-            die;
-        }
+        for ($i = 0; $i < count($input); $i++) {
+            $todayQuantity = Results::find()
+                ->asArray()
+                ->select(['id', 'quantity'])
+                ->where(['date' => date('Y-m-d'), 'input_id' => $input[$i]['id']])
+                ->one();
 
-        $yesterdayQuantity = Results::find()
-            ->asArray()
-            ->select(['id', 'quantity'])
-            ->where(['date' => $yesterdayDate])
-            ->one();
+            if (empty($todayQuantity)) {
+                $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. пустое значение $todayQuantity, ' . $input[$i]['id'], "r");
+                fclose($sendToTelegram);
+                continue;
+            }
 
-        if (empty($yesterdayQuantity)) {
-            $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. пустое значение $yesterdayQuantity', "r");
-            fclose($sendToTelegram);
-            die;
-        }
+            $yesterdayQuantity = Results::find()
+                ->asArray()
+                ->select(['id', 'quantity'])
+                ->where(['date' => $yesterdayDate, 'input_id' => $input[$i]['id']])
+                ->one();
 
-        $data = $this->determiningOrderValues($yesterdayQuantity['quantity'], $todayQuantity['quantity']);
+            if (empty($yesterdayQuantity)) {
+                $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. пустое значение $yesterdayQuantity, ' . $input[$i]['id'], "r");
+                fclose($sendToTelegram);
+                continue;
+            }
 
-        $calculation = $this->calculationDifference($data, $yesterdayQuantity['quantity'], $todayQuantity['quantity']);
+            $data = $this->determiningOrderValues($yesterdayQuantity['quantity'], $todayQuantity['quantity']);
 
-        if (empty($calculation)) {
-            $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. пустое значение $calculation', "r");
-            fclose($sendToTelegram);
-            die;
-        }
+            $calculation = $this->calculationDifference($data, $yesterdayQuantity['quantity'], $todayQuantity['quantity']);
 
-        try {
-            $model = Results::findOne($todayQuantity['id']);
-            $model->change_per_day = json_encode($calculation);
-            $model->save();
-        } catch (\Exception $e) {
-            $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. данные не сохранены ($model->change_per_day)', "r");
-            fclose($sendToTelegram);
-            die;
+            if (empty($calculation)) {
+                $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. пустое значение $calculation', "r");
+                fclose($sendToTelegram);
+                continue;
+            }
+
+            try {
+                $model = Results::findOne($todayQuantity['id']);
+                $model->change_per_day = json_encode($calculation);
+                $model->save();
+            } catch (\Exception $e) {
+                $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. данные не сохранены ($model->change_per_day)', "r");
+                fclose($sendToTelegram);
+            }
         }
     }
 
