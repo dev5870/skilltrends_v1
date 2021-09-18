@@ -46,7 +46,7 @@ class StatisticsController extends Controller
 
             $data = $this->determiningOrderValues($yesterdayQuantity['quantity'], $todayQuantity['quantity']);
 
-            $calculation = $this->calculationDifference($data, $yesterdayQuantity['quantity'], $todayQuantity['quantity']);
+            $calculation = $this->calculationDifference($data, $todayQuantity['quantity'], $yesterdayQuantity['quantity']);
 
             if (empty($calculation)) {
                 $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionToday. пустое значение $calculation', "r");
