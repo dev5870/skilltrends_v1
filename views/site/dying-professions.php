@@ -11,7 +11,7 @@ $this->title = 'Вымирающие профессии. Профессии в �
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Вымирающие профессии</h1>
+        <h2>Вымирающие профессии</h2>
 
         <?php
         $area = array('cleaning_lady', 'cashier', 'translator', 'driver');

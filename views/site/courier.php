@@ -11,7 +11,20 @@ $this->title = 'Курьер. Skill trends - следим за трендами 
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Профессия: Курьер</h1>
+        <h2>Профессия: Курьер</h2>
+
+        <?php
+        $input = Input::getDataByProfessionalArea('courier');
+        $dayChange = Results::find()
+            ->asArray()
+            ->select(['change_per_day'])
+            ->where(['date' => date('Y-m-d'), 'input_id' => $input[0]['id']])
+            ->one();
+        if (!empty($dayChange)){
+            $json = json_decode($dayChange['change_per_day']);
+            echo "<h4>Изменение за день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span></h4>";
+        }
+        ?>
 
         <?php
         $query = array();
