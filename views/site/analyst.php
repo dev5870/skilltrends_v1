@@ -22,7 +22,9 @@ $this->title = 'Бизнес аналитик. Skill trends - следим за 
             ->one();
         if (!empty($dayChange)){
             $json = json_decode($dayChange['change_per_day']);
-            echo "<h4>Изменение за день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span></h4>";
+            if (isset($json->color)){
+                echo "<h4>Изменение за день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span></h4>";
+            }
         }
         ?>
 
