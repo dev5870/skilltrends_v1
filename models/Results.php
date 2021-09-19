@@ -21,10 +21,18 @@ class Results extends ActiveRecord
         $array = Results::find()->select(['quantity'])->where(['input_id' => $inputId])->all();
         $count = count($array);
         $data = array();
-        for ($i = 0; $i < $count; $i++)
-        {
+        for ($i = 0; $i < $count; $i++) {
             array_push($data, $array[$i]['quantity']);
         }
         return $data;
+    }
+
+    public static function median($arr)
+    {
+        sort ($arr);
+        $count = count($arr);
+        $middle = floor($count/2);
+        if ($count%2) return $arr[$middle];
+        else return ($arr[$middle-1]+$arr[$middle])/2;
     }
 }

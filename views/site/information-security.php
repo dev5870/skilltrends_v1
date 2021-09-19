@@ -14,21 +14,6 @@ $this->title = 'Информационная безопасность. Skill tre
         <h2>Профессия: Информационная безопасность</h2>
 
         <?php
-        $input = Input::getDataByProfessionalArea('information_security');
-        $dayChange = Results::find()
-            ->asArray()
-            ->select(['change_per_day'])
-            ->where(['date' => date('Y-m-d'), 'input_id' => $input[0]['id']])
-            ->one();
-        if (!empty($dayChange)){
-            $json = json_decode($dayChange['change_per_day']);
-            if (isset($json->color)){
-                echo "<h4>Изменение за день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span></h4>";
-            }
-        }
-        ?>
-
-        <?php
         $query = array();
         $area = array('information_security');
         $input = Input::getDataByProfessionalArea($area);
@@ -63,6 +48,45 @@ $this->title = 'Информационная безопасность. Skill tre
                 'series' => $series
             ]
         ]);
+        ?>
+
+        <?php
+        // изменение за последний день
+        $input = Input::getDataByProfessionalArea('information_security');
+        $dayChange = Results::find()
+            ->asArray()
+            ->select(['change_per_day'])
+            ->where(['date' => date('Y-m-d'), 'input_id' => $input[0]['id']])
+            ->one();
+        if (!empty($dayChange)){
+            $json = json_decode($dayChange['change_per_day']);
+            if (isset($json->color)){
+                echo "Изменение за последний день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span>; ";
+            }
+        }
+
+        // среднее медианное изменение
+        $allResultsChangePerDay = Results::find()
+            ->asArray()
+            ->select(['change_per_day'])
+            ->where(['input_id' => $input[0]['id']])
+            ->all();
+        for ($i = 0; $i < count($allResultsChangePerDay); $i++){
+            $jsonDecode = json_decode($allResultsChangePerDay[$i]['change_per_day']);
+            if(!empty($jsonDecode->count)){
+                $count[$i] = $jsonDecode->count;
+            }
+            if(!empty($jsonDecode->percent)){
+                $percent[$i] = $jsonDecode->percent;
+            }
+        }
+        $medianCount = Results::median($count);
+        $medianPercent = Results::median($percent);
+        if (gmp_sign($medianCount) == 1){
+            echo "Дневная медиана (по данным за все время): <span style=\"color:green\">" . $medianCount . " (" . $medianPercent . "%)</span>";
+        } elseif (gmp_sign($medianCount) == -1){
+            echo "Дневная медиана (по данным за все время): <span style=\"color:red\">" . $medianCount . " (" . $medianPercent . "%)</span>";
+        }
         ?>
 
         <p class="lead"></p>
