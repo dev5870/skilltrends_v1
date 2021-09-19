@@ -65,28 +65,8 @@ $this->title = 'Генетик. Skill trends - следим за трендам�
             }
         }
 
-        // среднее медианное изменение
-        $allResultsChangePerDay = Results::find()
-            ->asArray()
-            ->select(['change_per_day'])
-            ->where(['input_id' => $input[0]['id']])
-            ->all();
-        for ($i = 0; $i < count($allResultsChangePerDay); $i++){
-            $jsonDecode = json_decode($allResultsChangePerDay[$i]['change_per_day']);
-            if(!empty($jsonDecode->count)){
-                $count[$i] = $jsonDecode->count;
-            }
-            if(!empty($jsonDecode->percent)){
-                $percent[$i] = $jsonDecode->percent;
-            }
-        }
-        $medianCount = Results::median($count);
-        $medianPercent = Results::median($percent);
-        if (gmp_sign($medianCount) == 1){
-            echo "Дневная медиана (по данным за все время): <span style=\"color:green\">" . $medianCount . " (" . $medianPercent . "%)</span>";
-        } elseif (gmp_sign($medianCount) == -1){
-            echo "Дневная медиана (по данным за все время): <span style=\"color:red\">" . $medianCount . " (" . $medianPercent . "%)</span>";
-        }
+        // среднее изменение за последний месяц
+
         ?>
 
         <p class="lead"></p>

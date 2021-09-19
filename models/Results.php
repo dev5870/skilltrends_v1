@@ -26,13 +26,4 @@ class Results extends ActiveRecord
         }
         return $data;
     }
-
-    public static function median($arr)
-    {
-        sort ($arr);
-        $count = count($arr);
-        $middle = floor($count/2);
-        if ($count%2) return $arr[$middle];
-        else return ($arr[$middle-1]+$arr[$middle])/2;
-    }
 }
