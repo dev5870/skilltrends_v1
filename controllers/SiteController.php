@@ -256,8 +256,23 @@ class SiteController extends Controller
         return $this->render('data-scientist');
     }
 
-    public function actionDyingProfessions()
+    public function actionDriver()
     {
-        return $this->render('dying-professions');
+        return $this->render('driver');
+    }
+
+    public function actionTranslator()
+    {
+        return $this->render('translator');
+    }
+
+    public function actionCashier()
+    {
+        return $this->render('cashier');
+    }
+
+    public function actionCleaningLady()
+    {
+        return $this->render('cleaning-lady');
     }
 }

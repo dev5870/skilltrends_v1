@@ -79,7 +79,10 @@ $this->title = 'Skill trends - следим за трендами професс
             <a class="btn btn-lg btn-default" href="teacher">Учитель</a>
             <a class="btn btn-lg btn-default" href="data-engineer">Data engineer</a>
             <a class="btn btn-lg btn-default" href="data-scientist">Data scientist</a>
-            <a class="btn btn-lg btn-default" href="dying-professions">Профессии в зоне риска</a>
+            <a class="btn btn-lg btn-default" href="driver">Водитель</a>
+            <a class="btn btn-lg btn-default" href="translator">Переводчик</a>
+            <a class="btn btn-lg btn-default" href="cashier">Кассир</a>
+            <a class="btn btn-lg btn-default" href="cleaning-lady">Уборщица</a>
         </p>
 
         <h1>Список скиллов:</h1>
