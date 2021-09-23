@@ -60,7 +60,9 @@ $this->title = 'Бизнес аналитик. Skill trends - следим за 
             ->one();
         if (!empty($dayChange)){
             $json = json_decode($dayChange['change_per_day']);
-            if (isset($json->color)){
+            if (isset($json->color) && gmp_sign($json->count) == 1){
+                echo "Изменение за последний день: <span style=\"color:" . $json->color . "\">+" . $json->count . " (" . $json->percent . "%)</span>; ";
+            } elseif (isset($json->color) && gmp_sign($json->count) == -1) {
                 echo "Изменение за последний день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span>; ";
             }
         }
