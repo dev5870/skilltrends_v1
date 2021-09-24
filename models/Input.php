@@ -6,12 +6,19 @@ use yii\db\ActiveRecord;
 
 class Input extends ActiveRecord
 {
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
+
     public static function tableName()
     {
         return '{{input}}';
     }
 
-    public static function getAllActiveSkills()
+    /**
+     * Возвращает список всех активных скиллов.
+     * @return array
+     */
+    public static function getAllActiveSkills(): array
     {
         return Input::find()->asArray()->select([
             'query',
@@ -21,11 +28,15 @@ class Input extends ActiveRecord
             'region'
         ])->where([
             'type' => 'skill',
-            'status' => 1
+            'status' => self::STATUS_ACTIVE
         ])->distinct()->all();
     }
 
-    public static function getAllActiveVacancies()
+    /**
+     * Возвращает список всех активных вакансий.
+     * @return array
+     */
+    public static function getAllActiveVacancies(): array
     {
         return Input::find()->asArray()->select([
             'query',
@@ -35,11 +46,16 @@ class Input extends ActiveRecord
             'region'
         ])->where([
             'type' => 'vacancies',
-            'status' => 1
+            'status' => self::STATUS_ACTIVE
         ])->distinct()->all();
     }
 
-    public static function getDataByQuery($query)
+    /**
+     * Возвращает данные для input по значению query.
+     * @param $query
+     * @return array
+     */
+    public static function getDataByQuery($query): array
     {
         return Input::find()->asArray()->select([
             'id',
@@ -53,7 +69,12 @@ class Input extends ActiveRecord
         ])->distinct()->all();
     }
 
-    public static function getDataByProfessionalArea($area)
+    /**
+     * Возвращает данные для input по значению professional_area.
+     * @param $area
+     * @return array
+     */
+    public static function getDataByProfessionalArea($area): array
     {
         return Input::find()->asArray()->select([
             'id',
@@ -64,6 +85,28 @@ class Input extends ActiveRecord
             'region'
         ])->where([
             'professional_area' => $area
+        ])->distinct()->all();
+    }
+
+    /**
+     * Возвращает данные для input по id.
+     * @param $id
+     * @return array
+     */
+    public static function getDataByInputId($id): array
+    {
+        return Input::find()->asArray()->select([
+            'id',
+            'description',
+            'type',
+            'status',
+            'query',
+            'tag',
+            'professional_area',
+            'region',
+            'number_empty_values'
+        ])->where([
+            'id' => $id
         ])->distinct()->all();
     }
 }
