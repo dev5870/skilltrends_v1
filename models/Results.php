@@ -11,11 +11,11 @@ class Results extends ActiveRecord
         return '{{results}}';
     }
 
-    public static function getAllData()
-    {
-        return Results::find()->asArray()->select(['input_id', 'date', 'quantity'])->distinct()->all();
-    }
-
+    /**
+     * Возвращает количество (за все время) для заданного input_id.
+     * @param $inputId
+     * @return array
+     */
     public static function getQuantityByInputId($inputId)
     {
         $array = Results::find()->select(['quantity'])->where(['input_id' => $inputId])->all();
