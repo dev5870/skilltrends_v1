@@ -109,4 +109,25 @@ class Input extends ActiveRecord
             'id' => $id
         ])->distinct()->all();
     }
+
+    /**
+     * Возвращает список всех активных input_id.
+     * @return array
+     */
+    public static function getAllActiveInput(): array
+    {
+        return Input::find()->asArray()->select([
+            'id',
+            'description',
+            'type',
+            'status',
+            'query',
+            'tag',
+            'professional_area',
+            'region',
+            'number_empty_values'
+        ])->where([
+            'status' => self::STATUS_ACTIVE
+        ])->distinct()->all();
+    }
 }
