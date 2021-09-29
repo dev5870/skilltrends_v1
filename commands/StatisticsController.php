@@ -2,6 +2,7 @@
 
 namespace app\commands;
 
+use app\models\MonthlyStatistics;
 use yii\console\Controller;
 use app\models\Results;
 use app\models\Input;
@@ -36,7 +37,7 @@ class StatisticsController extends Controller
             $dataInput = Input::getDataByInputId($input[$i]['id']);
 
             // пропускаем деактивированные input_id
-            if ($dataInput[0]['status'] == Input::STATUS_INACTIVE){
+            if ($dataInput[0]['status'] == Input::STATUS_INACTIVE) {
                 continue;
             }
 
@@ -63,7 +64,7 @@ class StatisticsController extends Controller
                 }
 
                 // если счетчик перешел границу, то деактивируем input_id и отправляем уведомление в тг
-                if ($dataInput[0]['number_empty_values'] >= self::NUMBER_EMPTY_VALUES){
+                if ($dataInput[0]['number_empty_values'] >= self::NUMBER_EMPTY_VALUES) {
                     try {
                         $model = Input::findOne($input[$i]['id']);
                         $model->status = Input::STATUS_INACTIVE;
@@ -80,7 +81,7 @@ class StatisticsController extends Controller
             }
 
             // если результат парсинга за сегодня не пуст и у input_id счетчик > 1, то делаем обнуление счетчика
-            if ($todayQuantity['quantity'] > '0' && $dataInput[0]['number_empty_values'] >= 1){
+            if ($todayQuantity['quantity'] > '0' && $dataInput[0]['number_empty_values'] >= 1) {
                 try {
                     $model = Input::findOne($input[$i]['id']);
                     $model->number_empty_values = 0;
@@ -133,6 +134,98 @@ class StatisticsController extends Controller
     }
 
     /**
+     * Производит расчет и запись месячного изменения результатов парсинга.
+     * Выполняется по крону 1 числа каждого месяца.
+     * Расчитывает изменение количества вакансий прошлого месяца по отношению к позапрошлому.
+     * Пример:
+     * Текущий месяц: сентябрь.
+     * Тогда для расчета берутся:
+     * Прошлый месяц: август.
+     * Позапрошлый месяц: июль.
+     * Результат расчета: разница прошлого месяца по отношению к позапрошлому.
+     */
+    public function actionMonthly()
+    {
+        // определяем прошлый месяц
+        $lastMonth = date('m', strtotime('-1 month', time()));
+        // определяем количество дней в прошлом месяце
+        $lastMonthDays = cal_days_in_month(
+            CAL_GREGORIAN,
+            $lastMonth,
+            date('Y', strtotime('-1 month', time()))
+        );
+
+        // определяем позапрошлый месяц
+        $monthBeforeLast = date('m', strtotime('-2 month', time()));
+        // определяем количество дней в позапрошлом месяц
+        $monthBeforeLastDays = cal_days_in_month(
+            CAL_GREGORIAN,
+            $monthBeforeLast,
+            date('Y', strtotime('-2 month', time()))
+        );
+
+        // считаем количество дней за два месяца
+        $totalDays = $lastMonthDays + $monthBeforeLastDays;
+
+        // получаем список всех активных input_id
+        $allActiveInputId = Input::getAllActiveInput();
+
+        // отбираем только те input_id, для которых есть данные за требуемый период
+        for ($i = 0; $i < count($allActiveInputId); $i++) {
+            if ($this->completenessData($allActiveInputId[$i]['id'], $totalDays) == true) {
+                $data[$i]['input_id'] = $allActiveInputId[$i]['id'];
+            }
+        }
+        $workersInputId = array_values($data);
+
+        // производим перебор input_id и запись статистики
+        foreach ($workersInputId as $input) {
+
+            // получаем результаты парсинга за прошлый месяц
+            $resultsLastMonth = Results::getQuantityByInputIdAndDateInterval(
+                $input['input_id'],
+                date("Y-m-01", strtotime("-1 month")),
+                date("Y-m-t", strtotime("-1 month"))
+            );
+
+            // получаем результаты парсинга за позапрошлый месяц
+            $resultsMonthBeforeLast = Results::getQuantityByInputIdAndDateInterval(
+                $input['input_id'],
+                date("Y-m-01", strtotime("-2 month")),
+                date("Y-m-t", strtotime("-2 month"))
+            );
+
+            // расчитываем медиану за прошлый месяц
+            $medianLastMonth = $this->calculateMedian($resultsLastMonth);
+
+            // расчитываем медиану за позапрошлый месяц
+            $medianMonthBeforeLast = $this->calculateMedian($resultsMonthBeforeLast);
+
+            // сортируем результат парсинга за прошлый и позапрошлый месяцы (для дальнейшего расчета)
+            $data = $this->determiningOrderValues($medianMonthBeforeLast, $medianLastMonth);
+
+            // расчитываем числовую и процентную разницу между прошлым и позапрошлым месяцами
+            $calculation = $this->calculationDifference($data, $medianLastMonth, $medianMonthBeforeLast);
+
+            // сохраняем результат расчета
+            try {
+                $model = new MonthlyStatistics();
+                $model->input_id = $input['input_id'];
+                $model->date = date('Y-m-d');
+                $model->daily_median_for_last_month = $medianLastMonth;
+                $model->change_per_month = json_encode($calculation);
+                if (!$model->save()) {
+                    $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=данные не сохранены (статистика за месяц). Input_id:: ' . $input['input_id'], "r");
+                    fclose($sendToTelegram);
+                }
+            } catch (\Exception $e) {
+                $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды статистика за месяц', "r");
+                fclose($sendToTelegram);
+            }
+        }
+    }
+
+    /**
      * Кладет полученные значения в массив и сортирует по возрастанию.
      * @param $first
      * @param $second
@@ -163,5 +256,54 @@ class StatisticsController extends Controller
             $result['color'] = 'green';
         }
         return $result;
+    }
+
+    /**
+     * Принимает на вход input_id и месяц.
+     * Возвращает true если данные парсинга есть за весь указанный месяц, иначе false.
+     * @param $inputId
+     * @param $totalDays
+     * @return bool
+     */
+    public function completenessData($inputId, $totalDays): bool
+    {
+        // делаем выборку результатов парсинга для указанного input_id за два месяца
+        $results = Results::find()
+            ->asArray()
+            ->select('date')
+            ->where(['input_id' => $inputId])
+            ->andWhere([
+                'between',
+                'date',
+                date("Y-m-01", strtotime("-2 month")),
+                date("Y-m-t", strtotime("-1 month"))
+            ])
+            ->all();
+
+        // сравниваем количество результатов выборки с количеством дней
+        if ($totalDays == count($results)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Расчитывает медиану для заданного массива.
+     * @param $arr
+     * @return float
+     */
+    public function calculateMedian($arr): float
+    {
+        $count = count($arr);
+        $middleval = floor(($count - 1) / 2); // find the middle value, or the lowest middle value
+        if ($count % 2) { // odd number, middle is the median
+            $median = $arr[$middleval];
+        } else { // even number, calculate avg of 2 medians
+            $low = $arr[$middleval];
+            $high = $arr[$middleval + 1];
+            $median = (($low + $high) / 2);
+        }
+        return $median;
     }
 }
