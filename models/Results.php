@@ -49,4 +49,26 @@ class Results extends ActiveRecord
         }
         return $data;
     }
+
+    /**
+     * Возвращает данные из столбца change_per_day для заданного input_id.
+     * @param $input
+     * @return string
+     */
+    public static function getResultsForChangePerDay($input): string
+    {
+        $dayChange = Results::find()
+            ->asArray()
+            ->select(['change_per_day'])
+            ->where(['date' => date('Y-m-d'), 'input_id' => $input[0]['id']])
+            ->one();
+        if (!empty($dayChange)){
+            $json = json_decode($dayChange['change_per_day']);
+            if (isset($json->color) && gmp_sign($json->count) == 1){
+                return "Изменение за последний день: <span style=\"color:" . $json->color . "\">+" . $json->count . " (" . $json->percent . "%)</span>; ";
+            } elseif (isset($json->color) && gmp_sign($json->count) == -1) {
+                return "Изменение за последний день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span>; ";
+            }
+        }
+    }
 }

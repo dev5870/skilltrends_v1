@@ -52,19 +52,7 @@ $this->title = 'Data engineer. Skill trends - следим за трендами
 
         <?php
         // изменение за последний день
-        $dayChange = Results::find()
-            ->asArray()
-            ->select(['change_per_day'])
-            ->where(['date' => date('Y-m-d'), 'input_id' => $input[0]['id']])
-            ->one();
-        if (!empty($dayChange)){
-            $json = json_decode($dayChange['change_per_day']);
-            if (isset($json->color) && gmp_sign($json->count) == 1){
-                echo "Изменение за последний день: <span style=\"color:" . $json->color . "\">+" . $json->count . " (" . $json->percent . "%)</span>; ";
-            } elseif (isset($json->color) && gmp_sign($json->count) == -1) {
-                echo "Изменение за последний день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span>; ";
-            }
-        }
+        echo Results::getResultsForChangePerDay($input);
 
         // среднее изменение за последний месяц
 
