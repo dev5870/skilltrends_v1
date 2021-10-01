@@ -52,7 +52,6 @@ $this->title = 'Робототехник. Skill trends - следим за тр�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('roboticist');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

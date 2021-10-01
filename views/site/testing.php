@@ -48,7 +48,6 @@ $this->title = 'Тестировщик. Skill trends - следим за тре�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('testing_software');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

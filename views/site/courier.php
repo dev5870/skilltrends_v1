@@ -52,7 +52,6 @@ $this->title = 'Курьер. Skill trends - следим за трендами 
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('courier');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

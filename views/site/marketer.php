@@ -52,7 +52,6 @@ $this->title = 'Маркетолог. Skill trends - следим за трен�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('marketer');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

@@ -52,7 +52,6 @@ $this->title = 'Информационная безопасность. Skill tre
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('information_security');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

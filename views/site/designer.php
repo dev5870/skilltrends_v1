@@ -52,7 +52,6 @@ $this->title = 'Дизайнер. Skill trends - следим за тренда�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('designer');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

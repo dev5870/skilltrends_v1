@@ -52,7 +52,6 @@ $this->title = 'Управление проектами. Skill trends - след
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('project_management');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

@@ -52,7 +52,6 @@ $this->title = 'Технический писатель. Skill trends - след
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('technical_writer');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

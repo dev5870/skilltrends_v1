@@ -52,7 +52,6 @@ $this->title = 'Бизнес аналитик. Skill trends - следим за 
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('analyst');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

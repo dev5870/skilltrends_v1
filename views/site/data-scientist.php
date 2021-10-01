@@ -52,7 +52,6 @@ $this->title = 'Data scientist. Skill trends - следим за трендам�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('data_scientist');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

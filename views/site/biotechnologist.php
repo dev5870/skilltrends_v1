@@ -52,7 +52,6 @@ $this->title = 'Биотехнолог. Skill trends - следим за тре�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('biotechnologist');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

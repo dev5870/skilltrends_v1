@@ -52,7 +52,6 @@ $this->title = 'Переводчик. Skill trends - следим за трен�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('translator');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

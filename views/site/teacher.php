@@ -52,7 +52,6 @@ $this->title = 'Учитель. Skill trends - следим за трендам�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('teacher');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

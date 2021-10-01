@@ -52,7 +52,6 @@ $this->title = 'Юрист. Skill trends - следим за трендами п
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('lawyer');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

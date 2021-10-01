@@ -47,7 +47,6 @@ $this->title = 'Программирование и разработка. Skill 
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('programming_and_development');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])
@@ -62,7 +61,20 @@ $this->title = 'Программирование и разработка. Skill 
             }
         }
 
-        // среднее изменение за последний месяц
+        // дневная медиана вакансий за прошлый месяц
+        $monthChange = Results::find()
+            ->asArray()
+            ->select(['change_per_day'])
+            ->where(['date' => date('Y-m-d'), 'input_id' => $input[0]['id']])
+            ->one();
+        if (!empty($dayChange)){
+            $json = json_decode($dayChange['change_per_day']);
+            if (isset($json->color) && gmp_sign($json->count) == 1){
+                echo "Изменение за последний день: <span style=\"color:" . $json->color . "\">+" . $json->count . " (" . $json->percent . "%)</span>; ";
+            } elseif (isset($json->color) && gmp_sign($json->count) == -1) {
+                echo "Изменение за последний день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span>; ";
+            }
+        }
 
         ?>
 

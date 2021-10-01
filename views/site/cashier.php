@@ -52,7 +52,6 @@ $this->title = 'Кассир. Skill trends - следим за трендами 
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('cashier');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

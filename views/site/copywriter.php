@@ -52,7 +52,6 @@ $this->title = 'Копирайтер. Skill trends - следим за трен�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('copywriter');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

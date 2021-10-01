@@ -52,7 +52,6 @@ $this->title = 'Водитель. Skill trends - следим за тренда�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('driver');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

@@ -52,7 +52,6 @@ $this->title = 'Технический директор, CTO. Skill trends - с�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('cto');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

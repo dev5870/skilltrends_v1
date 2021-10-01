@@ -52,7 +52,6 @@ $this->title = 'Генетик. Skill trends - следим за трендам�
 
         <?php
         // изменение за последний день
-        $input = Input::getDataByProfessionalArea('geneticist');
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])
