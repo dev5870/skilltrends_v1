@@ -70,5 +70,6 @@ class Results extends ActiveRecord
                 return "Изменение за последний день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span>; ";
             }
         }
+        return '';
     }
 }
