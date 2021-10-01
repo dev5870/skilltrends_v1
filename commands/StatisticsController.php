@@ -171,12 +171,18 @@ class StatisticsController extends Controller
         $allActiveInputId = Input::getAllActiveInput();
 
         // отбираем только те input_id, для которых есть данные за требуемый период
-        for ($i = 0; $i < count($allActiveInputId); $i++) {
-            if ($this->completenessData($allActiveInputId[$i]['id'], $totalDays) == true) {
-                $data[$i]['input_id'] = $allActiveInputId[$i]['id'];
+        try {
+            for ($i = 0; $i < count($allActiveInputId); $i++) {
+                if ($this->completenessData($allActiveInputId[$i]['id'], $totalDays) == true) {
+                    $data[$i]['input_id'] = $allActiveInputId[$i]['id'];
+                }
             }
+            $workersInputId = array_values($data);
+        } catch (\Exception $e) {
+            $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды статистика за месяц: отсутствуют данные за требуемый период', "r");
+            fclose($sendToTelegram);
+            die;
         }
-        $workersInputId = array_values($data);
 
         // производим перебор input_id и запись статистики
         foreach ($workersInputId as $input) {
