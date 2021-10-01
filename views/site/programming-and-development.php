@@ -1,5 +1,6 @@
 <?php
 
+use app\models\MonthlyStatistics;
 use app\models\Results;
 use app\models\Input;
 use miloschuman\highcharts\Highcharts;
@@ -50,8 +51,7 @@ $this->title = 'Программирование и разработка. Skill 
         echo Results::getResultsForChangePerDay($input);
 
         // дневная медиана вакансий за прошлый месяц
-
-
+        echo MonthlyStatistics::getStatisticsForLastMonth($input);
         ?>
 
         <hr>

@@ -1,5 +1,6 @@
 <?php
 
+use app\models\MonthlyStatistics;
 use app\models\Results;
 use app\models\Input;
 use miloschuman\highcharts\Highcharts;
@@ -50,8 +51,8 @@ $this->title = 'Тестировщик. Skill trends - следим за тре�
         // изменение за последний день
         echo Results::getResultsForChangePerDay($input);
 
-        // среднее изменение за последний месяц
-
+        // дневная медиана вакансий за прошлый месяц
+        echo MonthlyStatistics::getStatisticsForLastMonth($input);
         ?>
 
         <hr>
