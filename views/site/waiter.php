@@ -16,9 +16,8 @@ $this->title = 'Официант. Skill trends - следим за тренда�
         echo '<h2>Профессия: официант</h2>';
         // выводим график вакансий
         echo Charts::getCharts('waiter');
-        // изменение вакансий за последний день
+        // изменение вакансий за последний день и дневная медиана вакансий за прошлый месяц
         echo Results::getResultsForChangePerDay('waiter');
-        // дневная медиана вакансий за прошлый месяц
         echo MonthlyStatistics::getStatisticsForLastMonth('waiter');
         ?>
 
@@ -27,49 +26,4 @@ $this->title = 'Официант. Skill trends - следим за тренда�
         <p><a class="btn btn-lg btn-success" href="/">На главную</a></p>
     </div>
 
-    <div class="body-content" style="display: none">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Информация</h2>
-
-                <p>
-                    Количество упоминаний собираются из открытых вакансий.
-                    На текущий момент анализируется город Москва. В следующей версии проекта будет представлен анализ
-                    для
-                    нескольких крупных городов РФ, а также подключение других стран.
-                </p>
-
-                <p><a class="btn btn-default" href="" style="display: none"></a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Блог</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Новости</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a>
-                </p>
-            </div>
-        </div>
-
-    </div>
 </div>
