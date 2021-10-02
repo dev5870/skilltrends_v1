@@ -11,44 +11,7 @@ $this->title = 'Skill trends - следим за трендами професс
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Список профессий:</h1>
-
-<!--        --><?php
-//        $input = Input::getAllActiveSkills();
-//        $results = Results::getAllData();
-//        $date = Results::find()->asArray()->select(['date'])->distinct()->all();
-//        $countDate = count($date);
-//        $categories = array();
-//
-//        for ($i = 0; $i < $countDate; $i++)
-//        {
-//            array_push($categories, $date[$i]['date']);
-//        }
-//
-//        $countSkills = count($input);
-//        $series = array();
-//
-//        for ($i = 0; $i < $countSkills; $i++)
-//        {
-//            array_push($series, [
-//                'name' => $input[$i]['query'],
-//                'data' => Results::getQuantityByInputId($input[$i]['id'])
-//            ]);
-//        }
-//
-//        echo Highcharts::widget([
-//            'options' => [
-//                'title' => ['text' => 'Тренд IT навыков для тестировщиков'],
-//                'xAxis' => [
-//                    'categories' => $categories
-//                ],
-//                'yAxis' => [
-//                    'title' => ['text' => 'Количество упоминаний']
-//                ],
-//                'series' => $series
-//            ]
-//        ]);
-//        ?>
+        <h2>СПИСОК ПРОФЕССИЙ:</h2>
 
         <p class="lead"></p>
 
@@ -85,7 +48,7 @@ $this->title = 'Skill trends - следим за трендами професс
             <a class="btn btn-lg btn-default" href="cleaning-lady">Уборщица</a>
         </p>
 
-        <h1>Список скиллов:</h1>
+        <h2>СПИСОК СКИЛЛОВ:</h2>
 
         <p>
             <a class="btn btn-xs btn-default" href="testing">Codeception</a>

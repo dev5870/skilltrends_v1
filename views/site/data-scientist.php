@@ -1,9 +1,8 @@
 <?php
 
+use app\models\Charts;
 use app\models\MonthlyStatistics;
 use app\models\Results;
-use app\models\Input;
-use miloschuman\highcharts\Highcharts;
 
 /* @var $this yii\web\View */
 
@@ -12,51 +11,15 @@ $this->title = 'Data scientist. Skill trends - следим за трендам�
 <div class="site-index">
 
     <div class="jumbotron">
-        <h2>Профессия: Data scientist</h2>
 
         <?php
-        $query = array();
-        $area = array('data_scientist');
-        $input = Input::getDataByProfessionalArea($area);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-
-        $countInput = count($input);
-        $countDate = count($date);
-
-        $categories = array();
-        $series = array();
-
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['description'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Количество вакансий: Data scientist'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество вакансий в Москве']
-                ],
-                'series' => $series
-            ]
-        ]);
-        ?>
-
-        <?php
-        // изменение за последний день
-        echo Results::getResultsForChangePerDay($input);
-
+        echo '<h2>Профессия: data scientist</h2>';
+        // выводим график вакансий
+        echo Charts::getCharts('data_scientist');
+        // изменение вакансий за последний день
+        echo Results::getResultsForChangePerDay('data_scientist');
         // дневная медиана вакансий за прошлый месяц
-        echo MonthlyStatistics::getStatisticsForLastMonth($input);
+        echo MonthlyStatistics::getStatisticsForLastMonth('data_scientist');
         ?>
 
         <p class="lead"></p>

@@ -16,8 +16,10 @@ class MonthlyStatistics extends ActiveRecord
      * @param $input
      * @return string
      */
-    public static function getStatisticsForLastMonth($input): string
+    public static function getStatisticsForLastMonth($area): string
     {
+        $input = Input::getDataByProfessionalArea($area);
+
         $monthChange = MonthlyStatistics::find()
             ->asArray()
             ->select(['date', 'daily_median_for_last_month', 'change_per_month'])

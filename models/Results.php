@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\Input;
 use yii\db\ActiveRecord;
 
 class Results extends ActiveRecord
@@ -55,8 +56,10 @@ class Results extends ActiveRecord
      * @param $input
      * @return string
      */
-    public static function getResultsForChangePerDay($input): string
+    public static function getResultsForChangePerDay($area): string
     {
+        $input = Input::getDataByProfessionalArea($area);
+
         $dayChange = Results::find()
             ->asArray()
             ->select(['change_per_day'])

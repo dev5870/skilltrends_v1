@@ -1,9 +1,8 @@
 <?php
 
+use app\models\Charts;
 use app\models\MonthlyStatistics;
 use app\models\Results;
-use app\models\Input;
-use miloschuman\highcharts\Highcharts;
 
 /* @var $this yii\web\View */
 
@@ -12,328 +11,27 @@ $this->title = 'Программирование и разработка. Skill 
 <div class="site-index">
 
     <div class="jumbotron">
-        <h2>Профессия: программист/разработчик</h2>
 
         <?php
-        $query = array();
-        $area = array('programming_and_development');
-        $input = Input::getDataByProfessionalArea($area);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-        $countInput = count($input);
-        $countDate = count($date);
-        $categories = array();
-        $series = array();
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['description'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Количество вакансий: Программирование и разработка'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество вакансий в Москве']
-                ],
-                'series' => $series
-            ]
-        ]);
-        ?>
-
-        <?php
-        // изменение за последний день
-        echo Results::getResultsForChangePerDay($input);
-
+        echo '<h2>Профессия: программист/разработчик</h2>';
+        // выводим график вакансий
+        echo Charts::getCharts('programming_and_development');
+        // изменение вакансий за последний день
+        echo Results::getResultsForChangePerDay('programming_and_development');
         // дневная медиана вакансий за прошлый месяц
-        echo MonthlyStatistics::getStatisticsForLastMonth($input);
-        ?>
+        echo MonthlyStatistics::getStatisticsForLastMonth('programming_and_development');
 
-        <hr>
-        <h2>Данные по навыкам</h2>
-
-        <?php
-        $area = array('programming_language');
-        $input = Input::getDataByProfessionalArea($area);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-        $countInput = count($input);
-        $countDate = count($date);
-        $categories = array();
-        $series = array();
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['query'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Разбивка по языкам программирования (Количество упоминаний в вакансиях по Москве)'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество упоминаний']
-                ],
-                'series' => $series
-            ]
-        ]);
-        ?>
-
-        <?php
-        $query = array('Yii2');
-        $input = Input::getDataByQuery($query);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-        $countInput = count($input);
-        $countDate = count($date);
-        $categories = array();
-        $series = array();
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['query'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Skill: Yii2 (Количество упоминаний в вакансиях по Москве)'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество упоминаний']
-                ],
-                'series' => $series
-            ]
-        ]);
-        ?>
-
-        <?php
-        $query = array('Laravel');
-        $input = Input::getDataByQuery($query);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-        $countInput = count($input);
-        $countDate = count($date);
-        $categories = array();
-        $series = array();
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['query'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Skill: Laravel (Количество упоминаний в вакансиях по Москве)'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество упоминаний']
-                ],
-                'series' => $series
-            ]
-        ]);
-        ?>
-
-        <?php
-        $query = array('Symfony');
-        $input = Input::getDataByQuery($query);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-        $countInput = count($input);
-        $countDate = count($date);
-        $categories = array();
-        $series = array();
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['query'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Skill: Symfony (Количество упоминаний в вакансиях по Москве)'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество упоминаний']
-                ],
-                'series' => $series
-            ]
-        ]);
-        ?>
-
-        <?php
-        $query = array('Gitlab', 'Github');
-        $input = Input::getDataByQuery($query);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-        $countInput = count($input);
-        $countDate = count($date);
-        $categories = array();
-        $series = array();
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['query'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Skill: Gitlab, Github (Количество упоминаний в вакансиях по Москве)'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество упоминаний']
-                ],
-                'series' => $series
-            ]
-        ]);
-        ?>
-
-        <?php
-        $area = array('db');
-        $input = Input::getDataByProfessionalArea($area);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-        $countInput = count($input);
-        $countDate = count($date);
-        $categories = array();
-        $series = array();
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['query'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Разбивка по базам данных (Количество упоминаний в вакансиях по Москве)'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество упоминаний']
-                ],
-                'series' => $series
-            ]
-        ]);
-        ?>
-
-        <?php
-        $area = array('deployment');
-        $input = Input::getDataByProfessionalArea($area);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-        $countInput = count($input);
-        $countDate = count($date);
-        $categories = array();
-        $series = array();
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['query'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Разбивка по системам развертывания проектов (Количество упоминаний в вакансиях по Москве)'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество упоминаний']
-                ],
-                'series' => $series
-            ]
-        ]);
-        ?>
-
-        <?php
-        $area = array('oc');
-        $input = Input::getDataByProfessionalArea($area);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-        $countInput = count($input);
-        $countDate = count($date);
-        $categories = array();
-        $series = array();
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['query'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Разбивка по операционным системам (Количество упоминаний в вакансиях по Москве)'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество упоминаний']
-                ],
-                'series' => $series
-            ]
-        ]);
-        ?>
-
-        <?php
-        $area = array('frontend');
-        $input = Input::getDataByProfessionalArea($area);
-        $date = Results::find()->asArray()->select(['date'])->where(['input_id' => $input[0]['id']])->distinct()->all();
-        $countInput = count($input);
-        $countDate = count($date);
-        $categories = array();
-        $series = array();
-        for ($i = 0; $i < $countDate; $i++) {
-            array_push($categories, $date[$i]['date']);
-        }
-        for ($i = 0; $i < $countInput; $i++) {
-            array_push($series, [
-                'name' => $input[$i]['query'],
-                'data' => Results::getQuantityByInputId($input[$i]['id'])
-            ]);
-        }
-        echo Highcharts::widget([
-            'options' => [
-                'title' => ['text' => 'Skill: Frontend (Количество упоминаний в вакансиях по Москве)'],
-                'xAxis' => [
-                    'categories' => $categories
-                ],
-                'yAxis' => [
-                    'title' => ['text' => 'Количество упоминаний']
-                ],
-                'series' => $series
-            ]
-        ]);
+        echo '<hr><h2>Данные по навыкам</h2>';
+        // выводим графики навыков
+        echo Charts::getCharts('programming_language');
+        echo Charts::getCharts('Yii2');
+        echo Charts::getCharts('Laravel');
+        echo Charts::getCharts('Symfony');
+        echo Charts::getCharts('vcs');
+        echo Charts::getCharts('db');
+        echo Charts::getCharts('deployment');
+        echo Charts::getCharts('oc');
+        echo Charts::getCharts('frontend');
         ?>
 
         <p class="lead"></p>
