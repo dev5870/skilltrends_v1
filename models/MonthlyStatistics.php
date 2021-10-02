@@ -16,9 +16,15 @@ class MonthlyStatistics extends ActiveRecord
      * @param $input
      * @return string
      */
-    public static function getStatisticsForLastMonth($area): string
+    public static function getStatisticsForLastMonth($array): string
     {
-        $input = Input::getDataByProfessionalArea($area);
+        // определяем способ получения input_id
+        // может быть получен через query или professional_area
+        if (!empty(Input::getDataByProfessionalArea($array))) {
+            $input = Input::getDataByProfessionalArea($array);
+        } elseif (!empty(Input::getDataByQuery($array))) {
+            $input = Input::getDataByQuery($array);
+        }
 
         $monthChange = MonthlyStatistics::find()
             ->asArray()

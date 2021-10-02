@@ -56,9 +56,15 @@ class Results extends ActiveRecord
      * @param $input
      * @return string
      */
-    public static function getResultsForChangePerDay($area): string
+    public static function getResultsForChangePerDay($array): string
     {
-        $input = Input::getDataByProfessionalArea($area);
+        // определяем способ получения input_id
+        // может быть получен через query или professional_area
+        if (!empty(Input::getDataByProfessionalArea($array))) {
+            $input = Input::getDataByProfessionalArea($array);
+        } elseif (!empty(Input::getDataByQuery($array))) {
+            $input = Input::getDataByQuery($array);
+        }
 
         $dayChange = Results::find()
             ->asArray()
