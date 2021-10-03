@@ -246,14 +246,9 @@ class SiteController extends Controller
         return $this->render('teacher');
     }
 
-    public function actionDataEngineer()
+    public function actionData()
     {
-        return $this->render('data-engineer');
-    }
-
-    public function actionDataScientist()
-    {
-        return $this->render('data-scientist');
+        return $this->render('data');
     }
 
     public function actionDriver()

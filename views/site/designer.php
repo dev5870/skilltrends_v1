@@ -19,6 +19,15 @@ $this->title = 'Дизайнер. Skill trends - следим за тренда�
         // изменение вакансий за последний день и дневная медиана вакансий за прошлый месяц
         echo Results::getResultsForChangePerDay('designer');
         echo MonthlyStatistics::getStatisticsForLastMonth('designer');
+
+        echo '<hr><h2>Данные по навыкам</h2>';
+        // выводим графики навыков
+        echo Charts::getCharts('Photoshop');
+        echo Results::getResultsForChangePerDay('Photoshop');
+        echo MonthlyStatistics::getStatisticsForLastMonth('Photoshop');
+        echo Charts::getCharts('Figma');
+        echo Results::getResultsForChangePerDay('Figma');
+        echo MonthlyStatistics::getStatisticsForLastMonth('Figma');
         ?>
 
         <p class="lead"></p>
