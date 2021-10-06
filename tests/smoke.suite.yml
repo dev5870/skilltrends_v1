@@ -4,7 +4,6 @@ modules:
     - Helper\My
     - PhpBrowser:
         url: http://skilltrends.local/
-        browser: firefox
     - Db:
         dsn: mysql:host=localhost;dbname=skilltrends
         user: root
