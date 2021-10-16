@@ -81,4 +81,9 @@ class Results extends ActiveRecord
         }
         return '';
     }
+
+    public function getInput()
+    {
+        return $this->hasOne(Input::class, ['id' => 'input_id']);
+    }
 }

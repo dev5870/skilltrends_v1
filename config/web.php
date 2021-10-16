@@ -77,6 +77,8 @@ $config = [
                 'translator' => 'site/translator',
                 'cashier' => 'site/cashier',
                 'cleaning-lady' => 'site/cleaning-lady',
+                'profession' => 'table/profession',
+                'skills' => 'table/skills'
             ],
         ],
     ],
