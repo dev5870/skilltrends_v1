@@ -89,6 +89,8 @@ $this->title = 'Skill trends - следим за трендами професс
 
             <div class="col-lg-4">
                 <h2>Новости</h2>
+                <p><i>2021-10-17</i> Добавлены страницы со списком всех <a href="profession" target="_blank">профессий</a> и
+                    <a href="skills" target="_blank">скиллов</a>. </p>
                 <p><i>2021-10-03</i> Добавлена статистика за месяц.</p>
             </div>
 
