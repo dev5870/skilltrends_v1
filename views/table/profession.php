@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'quantity',
-                'label' => 'Количество вакансий',
+                'label' => 'Вакансий',
             ],
             [
                 'attribute'=>'change_per_day',
