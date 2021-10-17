@@ -265,4 +265,9 @@ class SiteController extends Controller
     {
         return $this->render('cleaning-lady');
     }
+
+    public function actionAnalytics()
+    {
+        return $this->render('analytics');
+    }
 }

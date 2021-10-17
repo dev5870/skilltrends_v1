@@ -55,14 +55,14 @@ class Charts extends ActiveRecord
             ->select(['type'])
             ->where(['id' => $input[0]['id']])
             ->one();
-        if ($skillOrVacancies['type'] == 'vacancies'){
+        if ($skillOrVacancies['type'] == 'vacancies') {
             $title = 'Количество вакансий: ' . json_encode($nameForCharts, JSON_UNESCAPED_UNICODE);
-        } elseif ($skillOrVacancies['type'] == 'skill'){
+        } elseif ($skillOrVacancies['type'] == 'skill') {
             $title = 'Skill: ' . json_encode($nameForCharts, JSON_UNESCAPED_UNICODE);
         }
 
         // возвращаем сообщение на страницу и отправляем сообщение в телеграм в случае отсутствия данных
-        if (empty($categories) || empty($series)){
+        if (empty($categories) || empty($series)) {
             $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка вывода информации на страницу. запрос: ' . $array, "r");
             fclose($sendToTelegram);
             return 'Данные отсутствуют!';
@@ -83,6 +83,49 @@ class Charts extends ActiveRecord
                 ],
                 'series' => $series
             ]
+        ]);
+    }
+
+    /**
+     * Возвращает график с данными для страницы analytics.
+     * @return string
+     * @throws \Exception
+     */
+    public static function getPieCharts()
+    {
+        // получаем результаты парсинга для input_id
+        $result = DistributionByDay::find()
+            ->asArray()
+            ->where(['tm_create' => date('Y-m-d')])
+            ->all();
+
+        $json = json_decode($result[0]['data']);
+
+        // возвращаем график
+        return Highcharts::widget([
+            'options' => [
+                'title' => ['text' => 'Распределение (в процентном соотношении) количества вакансий по дням недели'],
+                'plotOptions' => [
+                    'pie' => [
+                        'cursor' => 'pointer',
+                    ],
+                ],
+                'series' => [
+                    [ // new opening bracket
+                        'type' => 'pie',
+                        'name' => 'Day',
+                        'data' => [
+                            ['Понедельник', $json->Monday],
+                            ['Вторник', $json->Tuesday],
+                            ['Среда', $json->Wednesday],
+                            ['Четверг', $json->Thursday],
+                            ['Пятница', $json->Friday],
+                            ['Суббота', $json->Saturday],
+                            ['Воскресенье', $json->Sunday],
+                        ],
+                    ] // new closing bracket
+                ],
+            ],
         ]);
     }
 }

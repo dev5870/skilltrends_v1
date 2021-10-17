@@ -78,7 +78,8 @@ $config = [
                 'cashier' => 'site/cashier',
                 'cleaning-lady' => 'site/cleaning-lady',
                 'profession' => 'table/profession',
-                'skills' => 'table/skills'
+                'skills' => 'table/skills',
+                'analytics' => 'site/analytics'
             ],
         ],
     ],

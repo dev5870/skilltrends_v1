@@ -2,6 +2,7 @@
 
 namespace app\commands;
 
+use app\models\DistributionByDay;
 use app\models\MonthlyStatistics;
 use yii\console\Controller;
 use app\models\Results;
@@ -229,6 +230,86 @@ class StatisticsController extends Controller
                 fclose($sendToTelegram);
             }
         }
+    }
+
+    /**
+     * Производит рассчет распределения вакансий и упоминаний по дням недели (за весь период).
+     * Цель: определять в какие дни наибольшее/наименьшее количество вакансий/упоминаний.
+     * Запуск через cron каждый день.
+     */
+    public function actionDistributionByDay()
+    {
+        // выбираем все вакансии
+        $vacancies = Input::find()
+            ->asArray()
+            ->where(['type' => 'vacancies'])
+            ->all();
+
+        foreach ($vacancies as $vacancy){
+            // выбираем всю информацию
+            $results = Results::find()
+                ->asArray()
+                ->where(['input_id' => $vacancy['id']])
+                ->all();
+        }
+
+        $data = [];
+
+        for ($i = 0; $i < count($results); $i++) {
+            $day = $this->getDay($results[$i]['date']);
+            if (empty($data[$day])) {
+                $data[$day] = 0;
+            }
+            $data[$day] = $data[$day] + $results[$i]['quantity'];
+        }
+
+        $data['sum'] = array_sum($data);
+
+        $item['Sunday'] = $this->percentageAmount($data['Sunday'], $data['sum']);
+        $item['Monday'] = $this->percentageAmount($data['Monday'], $data['sum']);
+        $item['Tuesday'] = $this->percentageAmount($data['Tuesday'], $data['sum']);
+        $item['Wednesday'] = $this->percentageAmount($data['Wednesday'], $data['sum']);
+        $item['Thursday'] = $this->percentageAmount($data['Thursday'], $data['sum']);
+        $item['Friday'] = $this->percentageAmount($data['Friday'], $data['sum']);
+        $item['Saturday'] = $this->percentageAmount($data['Saturday'], $data['sum']);
+        $item['sum'] = $this->percentageAmount($data['sum'], $data['sum']);
+
+        // сохраняем результат дневного изменения в столбец change_per_day, таблица results
+        try {
+            $model = new DistributionByDay();
+            $model->tm_create = date('Y-m-d');
+            $model->data = json_encode($item);
+            if (!$model->save()) {
+                $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=данные не сохранены (дни недели).', "r");
+                fclose($sendToTelegram);
+            }
+        } catch (\Exception $e) {
+            $sendToTelegram = fopen('https://api.telegram.org/bot1908284524:AAGMSVUc06Z2Iqsay5p-4m8lhfF8tacmH7U/sendMessage?chat_id=347810962&parse_mode=html&text=ошибка консольной команды actionDistributionByDay.', "r");
+            fclose($sendToTelegram);
+        }
+    }
+
+    /**
+     * Возвращает день недели для заданной даты.
+     * @param $date
+     * @return false|string
+     */
+    public function getDay($date)
+    {
+        return strftime("%A", strtotime($date));
+    }
+
+    /**
+     * Возвращает процент для числа от суммы.
+     * @param $number
+     * @param $amount
+     * @return float
+     */
+    public function percentageAmount($number, $amount): float
+    {
+        $coefficient = $amount / $number;
+        $percent = 100 / $coefficient;
+        return $percent;
     }
 
     /**

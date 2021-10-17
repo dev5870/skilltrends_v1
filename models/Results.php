@@ -71,9 +71,9 @@ class Results extends ActiveRecord
             ->select(['change_per_day'])
             ->where(['date' => date('Y-m-d'), 'input_id' => $input[0]['id']])
             ->one();
-        if (!empty($dayChange)){
+        if (!empty($dayChange)) {
             $json = json_decode($dayChange['change_per_day']);
-            if (isset($json->color) && gmp_sign($json->count) == 1){
+            if (isset($json->color) && gmp_sign($json->count) == 1) {
                 return "Изменение за последний день: <span style=\"color:" . $json->color . "\">+" . $json->count . " (" . $json->percent . "%)</span>; ";
             } elseif (isset($json->color) && gmp_sign($json->count) == -1) {
                 return "Изменение за последний день: <span style=\"color:" . $json->color . "\">" . $json->count . " (" . $json->percent . "%)</span>; ";
@@ -82,6 +82,10 @@ class Results extends ActiveRecord
         return '';
     }
 
+    /**
+     * Возвращает связанную запись.
+     * @return \yii\db\ActiveQuery
+     */
     public function getInput()
     {
         return $this->hasOne(Input::class, ['id' => 'input_id']);

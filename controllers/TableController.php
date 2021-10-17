@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\models\Results;
-use app\models\Input;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
