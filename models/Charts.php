@@ -99,7 +99,8 @@ class Charts extends ActiveRecord
             ->where(['tm_create' => date('Y-m-d')])
             ->all();
 
-        $json = json_decode($result[0]['data']);
+        $last = end($result);
+        $json = json_decode($last['data']);
 
         // возвращаем график
         return Highcharts::widget([
