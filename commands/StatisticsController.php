@@ -239,6 +239,9 @@ class StatisticsController extends Controller
      */
     public function actionDistributionByDay()
     {
+        $date['start'] = date('Y-m-d',strtotime("Monday", strtotime('this week -1 week')));
+        $date['end'] = date('Y-m-d',strtotime("Sunday", strtotime('this week -1 week')));
+
         // выбираем все вакансии
         $vacancies = Input::find()
             ->asArray()
@@ -250,6 +253,12 @@ class StatisticsController extends Controller
             $results = Results::find()
                 ->asArray()
                 ->where(['input_id' => $vacancy['id']])
+                ->andWhere([
+                    'between',
+                    'date',
+                    date("Y-m-01", strtotime("-2 month")),
+                    date("Y-m-t", strtotime("-1 month"))
+                ])
                 ->all();
         }
 
