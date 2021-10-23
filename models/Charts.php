@@ -71,9 +71,9 @@ class Charts extends ActiveRecord
         // возвращаем график
         return Highcharts::widget([
             'options' => [
-                'chart' => [
-                    'type' => 'area'
-                ],
+//                'chart' => [
+//                    'type' => 'area'
+//                ],
                 'title' => ['text' => $title],
                 'xAxis' => [
                     'categories' => $categories
