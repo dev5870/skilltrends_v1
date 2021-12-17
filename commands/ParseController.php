@@ -41,7 +41,7 @@ class ParseController extends Controller
                 fclose($sendToTelegram);
                 continue;
             }
-            preg_match_all('/"totalResults": (.*), "enableNovaFilters"/', $file, $result);
+            preg_match_all('/], "totalResults": (.*), "enableNovaFilters"/', $file, $result);
             $this->stdout("Количество упоминаний: " . $result[1][0] . "\n");
             $this->stdout("Дата парсинга: " . $date . "\n");
             $model = new Results();
@@ -87,7 +87,7 @@ class ParseController extends Controller
                 fclose($sendToTelegram);
                 continue;
             }
-            preg_match_all('/"totalResults": (.*), "enableNovaFilters"/', $file, $result);
+            preg_match_all('/], "totalResults": (.*), "enableNovaFilters"/', $file, $result);
             $this->stdout("Количество вакансий: " . $result[1][0] . "\n");
             $this->stdout("Дата парсинга: " . $date . "\n");
             $model = new Results();
